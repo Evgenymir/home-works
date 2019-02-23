@@ -82,9 +82,9 @@ const findAllPSiblings = (where) => {
  */
 const findError = (where) => {
     let allChildren = where.children;
-    var result = [];
+    let result = [];
 
-    for (var child of allChildren) {
+    for (let child of allChildren) {
         result.push(child.innerText);
     }
 
