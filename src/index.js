@@ -10,8 +10,10 @@
  Пример:
    createDivWithText('loftschool') // создаст элемент div, поместит в него 'loftschool' и вернет созданный элемент
  */
-function createDivWithText(text) {
-    
+const createDivWithText = (text) => {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div;
 }
 
 
@@ -23,7 +25,8 @@ function createDivWithText(text) {
  Пример:
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
-function prepend(what, where) {
+const prepend = (what, where) => {
+    where.prepend(what);
 }
 
 /*
@@ -45,7 +48,19 @@ function prepend(what, where) {
 
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
-function findAllPSiblings(where) {
+const findAllPSiblings = (where) => {
+    let allSiblings = where.children;
+    let array = [];
+
+    for(let i = 0; i < allSiblings.length - 1; i++) {
+        let nameTag = allSiblings[i].nextElementSibling.nodeName;
+
+        if(nameTag === 'P') {
+            array.push(allSiblings[i]);
+        }
+    }
+
+    return array;
 }
 
 /*
@@ -65,10 +80,11 @@ function findAllPSiblings(where) {
 
    findError(document.body) // функция должна вернуть массив с элементами 'привет' и 'loftschool'
  */
-function findError(where) {
+const findError = (where) => {
+    let allChildren = where.children;
     var result = [];
 
-    for (var child of where.childNodes) {
+    for (var child of allChildren) {
         result.push(child.innerText);
     }
 
@@ -87,7 +103,14 @@ function findError(where) {
    После выполнения функции, дерево <div></div>привет<p></p>loftchool!!!
    должно быть преобразовано в <div></div><p></p>
  */
-function deleteTextNodes(where) {
+const deleteTextNodes = (where) => {
+    let allNodes = where.childNodes;
+
+    for(let node of allNodes) {
+        if(node.nodeType == 3) {
+            node.parentNode.removeChild(node);
+        }
+    }
 }
 
 /*
@@ -101,7 +124,18 @@ function deleteTextNodes(where) {
    После выполнения функции, дерево <span> <div> <b>привет</b> </div> <p>loftchool</p> !!!</span>
    должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
-function deleteTextNodesRecursive(where) {
+const deleteTextNodesRecursive = (where) => {
+
+    for (let i = 0; i < where.childNodes.length; i++) {
+        let child = where.childNodes[i];
+
+        if (child.nodeType === 3) {
+            where.removeChild(child);
+            i--;
+        } else if (child.nodeType === 1) {
+            deleteTextNodesRecursive(child);
+        }
+    }
 }
 
 /*
@@ -163,12 +197,12 @@ function observeChildNodes(where, fn) {
 }
 
 export {
-    createDivWithText
-    // prepend,
-    // findAllPSiblings,
-    // findError,
-    // deleteTextNodes,
-    // deleteTextNodesRecursive,
-    // collectDOMStat,
-    // observeChildNodes
+    createDivWithText,
+    prepend,
+    findAllPSiblings,
+    findError,
+    deleteTextNodes,
+    deleteTextNodesRecursive,
+    collectDOMStat,
+    observeChildNodes
 };
