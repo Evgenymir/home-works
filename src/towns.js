@@ -36,8 +36,47 @@ const homeworkContainer = document.querySelector('#homework-container');
  Массив городов пожно получить отправив асинхронный запрос по адресу
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
  */
-function loadTowns() {
-}
+const loadTowns = () => {
+    return promiseCity = new Promise( (resolve) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
+        xhr.responseType = 'json';
+
+        xhr.addEventListener('load', () => {
+            if(xhr.status >= 400) {
+                loadingBlock.innerText = 'Не удалось загрузить города';
+                button.style.display = 'block';
+
+            } else {
+                loadingBlock.innerHTML = '';
+                filterBlock.style.display = 'block';
+
+                resolve(xhr.response.sort((one, two) => {
+                    if(one.name > two.name) {
+                      return 1;
+                    }
+
+                    if(one.name < two.name) {
+                      return -1;
+                    }
+
+                    return 0;
+                }));
+            }
+        });
+
+        xhr.send();
+    });
+};
+
+const button = document.createElement("button");
+
+button.innerText = "Повторить загрузку...";
+button.style.marginTop = '10px';
+button.style.display = 'none';
+button.onclick = loadTowns;
+
+homeworkContainer.appendChild(button);
 
 /*
  Функция должна проверять встречается ли подстрока chunk в строке full
@@ -50,7 +89,12 @@ function loadTowns() {
    isMatching('Moscow', 'SCO') // true
    isMatching('Moscow', 'Moscov') // false
  */
-function isMatching(full, chunk) {
+const isMatching = (full, chunk) => {
+    if(full.toLowerCase().indexOf(chunk.toLowerCase()) > -1) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /* Блок с надписью "Загрузка" */
@@ -62,8 +106,38 @@ const filterInput = homeworkContainer.querySelector('#filter-input');
 /* Блок с результатами поиска */
 const filterResult = homeworkContainer.querySelector('#filter-result');
 
+let promiseCity;
+let cities = [];
+
+
+loadTowns()
+    .then(result => {
+        cities = result;
+        loadingBlock.style.display = 'none';
+        filterBlock.style.display = 'block';
+    });
+
 filterInput.addEventListener('keyup', function() {
-    // это обработчик нажатия кливиш в текстовом поле
+    const documentFragment = document.createDocumentFragment();
+    filterResult.innerHTML = '';
+
+    if(filterInput.value == '') {
+        return;
+    }
+
+    cities
+        .map(item => item.name)
+        .filter(city => isMatching(city, filterInput.value))
+        .forEach(city => {
+            const p = document.createElement('p');
+
+            p.innerHTML = city;
+            documentFragment.appendChild(p);
+        });
+    
+    if (documentFragment.children.length) {
+        filterResult.appendChild(documentFragment);
+    }
 });
 
 export {
