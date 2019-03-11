@@ -43,10 +43,54 @@ const addButton = homeworkContainer.querySelector('#add-button');
 // таблица со списком cookie
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
-filterNameInput.addEventListener('keyup', function() {
-    // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
+const get = () => {
+    return document.cookie
+        .split('; ')
+        .filter(Boolean)
+        .map(cookie => cookie.match(/^([^=]+)=(.+)/))
+        .reduce((obj, [, name, value]) => {
+            obj[name] = value;
+
+            return obj;
+        }, {});
+};
+
+const isMatching = (full, chunk) => {
+    if (full.toLowerCase().indexOf(chunk.toLowerCase()) !== -1) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+const addedCokieBlock = () => {
+    const cookieItem = get();
+    listTable.innerHTML = '';
+
+    for (let key in cookieItem) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${key}</td><td>${cookieItem[key]}</td><td><button data-key="${key}">Удалить</button></td>`;
+
+        if(!(isMatching(key,filterNameInput.value) || isMatching(cookieItem[key], filterNameInput.value))) continue;
+
+        listTable.appendChild(row);
+    }
+};
+
+addedCokieBlock();
+
+listTable.addEventListener('click', function (e) {
+    if (e.target.dataset.key) {
+        document.cookie = e.target.dataset.key + `=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+    }
+    addedCokieBlock();
+});
+
+filterNameInput.addEventListener('keyup', function () {
+    addedCokieBlock();
 });
 
 addButton.addEventListener('click', () => {
-    // здесь можно обработать нажатие на кнопку "добавить cookie"
+    document.cookie = `${addNameInput.value} = ${addValueInput.value}`;
+    addedCokieBlock();
 });
