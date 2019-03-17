@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Геолокация</title>
+        <link rel="stylesheet" href="css/main.css">
+        <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div class="logo">
+            <img src="img/logo.png" alt="Логотип">
+        </div>
+        <div id="map" class="map"></div>
+        
+        <!-- script -->
+        <script type="text/x-handlebars-template" id="reviews-list">
+            <li class="popup__reviews-item">
+                <p class="popup__reviews-title">
+                    <strong>{{name}}</strong> 
+                    {{place}} 
+                    <span>{{date}}</span>
+                </p>
+                <p class="popup__reviews-text">
+                    {{reference}}
+                </p>
+            </li>
+        </script>
+        <script type="text/x-handlebars-template" id="referenceTemplate">
+            {{#each list}}
+                {{> reference}}
+            {{/each}}
+        </script>
+
+        <script src="js/main.js"></script>
+    </body>
+</html>

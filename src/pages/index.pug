@@ -1,0 +1,52 @@
+doctype html
+html(lang="ru-RU")
+	head
+		meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
+		meta(http-equiv="Cache-Control", content="max-age=3600, must-revalidate")
+		meta(http-equiv="X-UA-Compatible", content="IE=edge, chrome=1")
+		meta(name="keywords", content="{seo_keywords}")
+		meta(name="description", content="{seo_description}")
+		meta(name="cmsmagazine", content="e81196d9023e622ed7b92ae6bbd88e87")
+		meta(name="viewport", content="width=device-width initial-scale=1.0")
+		meta(name="format-detection", content="telephone=no")
+		title {seo_title}
+
+		//css
+		link(rel="stylesheet", href="css/main.css")
+
+		//js
+		script(src="https://api-maps.yandex.ru/2.1/?lang=ru_RU")
+
+	body
+
+		// script
+
+		.logo
+			img(src="img/logo.png", alt="Логотип")
+		.map#map
+
+		.popup
+			.popup__close
+				.popup__close-line
+				.popup__close-line
+			.popup__header
+				.popup__header-text
+					p Невский пр., 78, Санкт-Петербург, 191025
+			.popup__body
+				.popup__reviews
+					ul.popup__reviews-list
+						li.popup__reviews-item
+							p.popup__reviews-title <strong>svetlana</strong> Шоколадница 13.12.2015
+							p.popup__reviews-text Очень хорошее место!
+						li.popup__reviews-item
+							p.popup__reviews-title <strong>Сергей Мелюков</strong> Красный куб 12.12.2015
+							p.popup__reviews-text Ужасное место! Кругом зомби!!!!
+				form.form(action="", method="POST", enctype="multipart/form-data")
+					.form__title Ваш отзыв
+					input(type="text", name="name", placeholder="Ваше имя")
+					input(type="text", name="place", placeholder="Укажите место")
+					textarea(name="comment", placeholder="Поделитесь впечатлениями")
+					.form__button-wrap
+						button.button.form__button Добавить
+		
+		script(src="js/main.js")

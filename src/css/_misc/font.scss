@@ -1,0 +1,45 @@
+// font
+
+@font-face {
+  font-family: 'FiraSans-Light';
+  src: url('../fonts/FiraSans-Light.woff') format('woff'),
+       url('../fonts/FiraSans-Light.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'FiraSans-Medium';
+  src: url('../fonts/FiraSans-Medium.woff') format('woff'),
+       url('../fonts/FiraSans-Medium.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'FiraSans-Regular';
+  src: url('../fonts/FiraSans-Regular.woff') format('woff'),
+       url('../fonts/FiraSans-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
+
+// font_mixin
+
+@mixin fira ($style: regular) {
+	@if $style == regular {
+		font-family: 'FiraSans-Regular', Arial, sans-serif;
+	}
+
+	@if $style == medium {
+		font-family: 'FiraSans-Medium', Arial, sans-serif;
+	}
+
+  @if $style == light {
+    font-family: 'FiraSans-Light', Arial, sans-serif;
+  }
+}
